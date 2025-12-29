@@ -3,8 +3,3 @@ sma_venv
 *.pyc
 *__pycache__
 .env
-*.swp
-# Vim
-*.swp
-*.swo
-*.swn
