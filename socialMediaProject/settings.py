@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -75,9 +80,9 @@ WSGI_APPLICATION = 'socialMediaProject.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "django_project",
-        "USER": "postgres",
-        "PASSWORD": "123",
+        "NAME": os.environ.get('DB_NAME'),
+        "USER": os.environ.get('DB_USER_NAME'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
