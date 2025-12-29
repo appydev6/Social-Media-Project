@@ -4,3 +4,7 @@ sma_venv
 *__pycache__
 .env
 *.swp
+# Vim
+*.swp
+*.swo
+*.swn
