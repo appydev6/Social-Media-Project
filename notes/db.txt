@@ -37,9 +37,11 @@ Table like {
 }
 
 Ref: users.id < posts.user_id // one-to-many
-
 Ref: users.id - profile.user_id // one-to-one
-
 Ref: users.id < like.user_id // one-to-many
-
 Ref: posts.id < like.user_id // one-to-many
+--------------------------------------------------
+OneToOneField => 1:1
+ManyToManyFiels => M:N
+OneToMany or ManyToOne => Using Foreign Key
+--------------------------------------------------
