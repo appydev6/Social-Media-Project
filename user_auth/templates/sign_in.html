@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
-<form style="width: 40%; margin: 0 auto; margin-top: 1rem;" method="POST" action="{% url 'sign_up' %}" autocomplete="off">
+<form style="width: 40%; margin: 0 auto;" method="POST" action="{% url 'sign_in' %}">
     {% csrf_token %}
-
-    {% if error %}
-    <div class="alert alert-danger" role="alert">
-        {{error_msg}}
-    </div>
-    {% endif %}
-
-    <h1>Sign Up Page</h1>
+    <h1>Sign In Page</h1>
     <!-- Email -->
     <div class="mb-3">
         <label for="email" class="form-label">Email address</label>
@@ -29,7 +23,7 @@
         <input type="password" class="form-control" id="password" name="password">
     </div>
 
-    <!-- submit button -->
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <!-- sign in button -->
+    <button type="sign in" class="btn btn-primary">sign in</button>
 </form>
 {% endblock %}
