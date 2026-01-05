@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-<form style="width: 40%; margin: 0 auto;" method="POST" action="{% url 'sign_in' %}">
+
+{% if request.user.is_authenticated %}
+
+<div class="alert alert-warning" role="alert">
+    Hey, It seems you are already logged in !
+</div>
+
+{% else %}
+
+<form style="width: 40%; margin: 0 auto; margin-top: 1rem;" method="POST" action="{% url 'sign_in' %}">
     {% csrf_token %}
-    <h1>Sign In Page</h1>
-    <!-- Email -->
-    <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" name="email">
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{error_msg}}
     </div>
+    {% endif %}
+
+    <h1>Sign In Page</h1>
 
     <!-- username -->
     <div class="mb-3">
@@ -26,4 +36,6 @@
     <!-- sign in button -->
     <button type="sign in" class="btn btn-primary">sign in</button>
 </form>
+{% endif %}
+
 {% endblock %}

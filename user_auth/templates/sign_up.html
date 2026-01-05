@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form style="width: 40%; margin: 0 auto; margin-top: 1rem;" method="POST" action="{% url 'sign_up' %}" autocomplete="off">
+
+{% if request.user.is_authenticated %}
+<div class="alert alert-warning" role="alert">
+    Hey, It seems you are already logged in !
+</div>
+{% else %}
+<form style="width: 40%; margin: 0 auto; margin-top: 1rem;" method="POST" action="{% url 'sign_up' %}"
+    autocomplete="off">
     {% csrf_token %}
 
     {% if error %}
     <div class="alert alert-danger" role="alert">
-        {{error_msg}}
+        A simple danger alert—check it out!
     </div>
     {% endif %}
 
     <h1>Sign Up Page</h1>
+
     <!-- Email -->
     <div class="mb-3">
         <label for="email" class="form-label">Email address</label>
@@ -32,4 +40,6 @@
     <!-- submit button -->
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+{% endif %}
+
 {% endblock %}
