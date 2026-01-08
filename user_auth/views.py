@@ -1,15 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404
 from django.http import HttpResponse
 from user_auth.models import User
 from django.contrib.auth.models import auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from media_app.models import Profile
 
 # Create your views here.
 def sign_up_view(request):
     page_name = 'sign_up.html'
     if request.method == "GET":
-        # print(request.user)
-        # print(request.user.is_authenticated)
         return render(request, page_name)
     else: # POST
         email = request.POST['email']
@@ -44,6 +44,22 @@ def sign_in_view(request):
         Profile.objects.get_or_create(user=user)
         auth.login(request, user)
         return render(request, page_name)
+
+@login_required
+def delete_user_view(request):
+    # print(f"User authenticated: {request.user.is_authenticated}")  # Add this
+    # print(f"Method: {request.method}")
+    
+    page_name = 'sign_up.html'
+    if request.method == "POST":
+        user = request.user
+        logout(request)
+        user.delete()
+        context = {
+            "message": "User deleted successfully."
+        }
+        return render(request, page_name, context)
+    return render(request, page_name)
     
 def sign_out_view(request):
     auth.logout(request)

@@ -27,6 +27,15 @@
             {% if request.user.is_authenticated %}
             <div style="display: flex; flex-direction: row;">
                 <a href="/profile/{{request.user.username}}">Hello, {{request.user.username}}</a>
+
+                <form method="post" action="{% url 'delete_user' %}" style="display:inline; margin-left: 1rem;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                        onclick="return confirm('Delete account forever? This cannot be undone.')">
+                        Delete Account
+                    </button>
+                </form>
+                
                 <a style="margin-left: 1rem;" class="btn btn-outline-dark" href="/sign_out">Sign out</a>
             </div>
             {% else %}

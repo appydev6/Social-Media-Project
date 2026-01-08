@@ -11,6 +11,10 @@
     autocomplete="off">
     {% csrf_token %}
 
+    {% if message %}
+    <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
     {% if error %}
     <div class="alert alert-danger" role="alert">
         A simple danger alert—check it out!
