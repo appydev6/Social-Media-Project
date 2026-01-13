@@ -1,5 +1,5 @@
 from django.urls import path
-from . views import sign_up_view, sign_in_view, delete_user_view, sign_out_view, hello_view
+from . views import sign_up_view, sign_in_view, delete_user_view, sign_out_view
 
 
 urlpatterns = [
