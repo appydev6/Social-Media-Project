@@ -4,7 +4,7 @@ from user_auth.models import User
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='Profile', on_delete=models.CASCADE)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, upload_to='profile_images')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -14,7 +14,7 @@ class Profile(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User, related_name='post', on_delete=models.CASCADE)
     caption = models.TextField()
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, upload_to='post_images')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
