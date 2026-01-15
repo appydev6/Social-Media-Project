@@ -1,20 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if request.user.is_authenticated %}
 <form method="POST" enctype="multipart/form-data" action="{% url 'submit_post' %}">
     {% csrf_token %}
     <div class="mb-3">
         <div class="form-floating">
-            <textarea required class="form-control" placeholder="Post some content today !" id="post_caption" name="post_caption"
-                style="height: 100px"></textarea>
+            <textarea required class="form-control" placeholder="Post some content today !" id="post_caption"
+                name="post_caption" style="height: 100px"></textarea>
             <label for="post_caption">Your content</label>
         </div>
         <div class="input-group">
-            <input type="file" class="form-control" name="post_image" id="post_image" aria-label="Upload" accept=".jpeg, .jpg, .png">
+            <input type="file" class="form-control" name="post_image" id="post_image" aria-label="Upload"
+                accept=".jpeg, .jpg, .png">
         </div>
     </div>
     <div style="display: flex; flex-direction: row; justify-content: center;">
         <button type="submit" class="btn btn-dark">Post my content</button>
     </div>
 </form>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    You are required to sign in to make Post.
+</div>
+{% endif %}
+
+{% for post in posts %}
+<div style="display: flex; flex-direction: row; justify-content: center;">
+    <div class="card" style="width: 18rem;">
+
+        {% if post.image and post.image.url %}
+        <img src="{{post.image.url}}" class="card-img-top" alt="Post image">
+        {% endif %}
+        <div class="card-body">
+            <p class="card-text">{{post.caption}}</p>
+        </div>
+    </div>
+</div>
+
+
+{% endfor %}
+
+
 {% endblock %}

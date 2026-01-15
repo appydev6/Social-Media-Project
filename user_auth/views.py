@@ -60,7 +60,8 @@ def delete_user_view(request):
         }
         return render(request, page_name, context)
     return render(request, page_name)
-    
+
+@login_required(login_url='sign_in')    
 def sign_out_view(request):
     auth.logout(request)
     return redirect('index')
