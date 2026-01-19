@@ -2,6 +2,7 @@
 
 {% block content %}
 {% if request.user.is_authenticated %}
+
 <form method="POST" enctype="multipart/form-data" action="{% url 'submit_post' %}">
     {% csrf_token %}
     <div class="mb-3">
@@ -31,8 +32,7 @@
     <img src="{{post.image.url}}" class="card-img-top" alt="Post image">
     {% endif %}
     <div class="card-body">
-        <span class="badge bg-secondary">Posted by : {{post.user.username}}</span>
-        <p class="card-text">{{post.caption}}</p>
+        <p class="card-text" style="font-style: italic;">{{post.caption}}</p>
 
         {% if request.user.id != post.user.id %}
         <form method="POST" action="{% url 'like_post' post.id %}">
@@ -43,12 +43,10 @@
             </button>
         </form>
         {% endif %}
-
-
-        <span class="badge bg-secondary">{{post.created_at}}</span>
+        <a class="badge bg-light" style="color: black;" href="/profile/{{post.user.username}}">Posted by : {{post.user.username}}</a>
+        <span class="badge bg-light" style="color: black;">{{post.created_at}}</span>
     </div>
 </div>
-
 
 {% endfor %}
 

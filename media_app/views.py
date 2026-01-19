@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from media_app.models import Post, LikePost
+from user_auth.models import User
 from django.contrib.auth.decorators import login_required
 
 def get_data(request, key):
@@ -30,3 +31,16 @@ def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     LikePost.objects.get_or_create(user=request.user, post=post)
     return redirect('index')
+
+@login_required(login_url='sign_in')
+def profile_view(request, username):
+    user = User.objects.get(username=username)
+    page_name = "profile.html"
+    data = {
+        'profile_user' : user,
+        'posts_made' : user.post.count(),
+        'likes_made' : LikePost.objects.all().filter(user=user).count(),
+        'likes_recevied' : LikePost.objects.filter(post__user=user).count(), 
+                            #post__user is  a lookup variable for reverse relationship.
+    }
+    return render(request, page_name, context=data)
