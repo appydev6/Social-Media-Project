@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from media_app.models import Post, LikePost
+from media_app.models import Post, LikePost, Profile
 from user_auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models import Avg, Count
 
 def get_data(request, key):
     return request.GET.get(key) or request.POST.get(key)
@@ -37,10 +38,22 @@ def profile_view(request, username):
     user = User.objects.get(username=username)
     page_name = "profile.html"
     data = {
+        "top_posts": user.post.all().annotate(likes_received=Count("like_post")).order_by("-likes_received", "-created_at")[:3],
         'profile_user' : user,
         'posts_made' : user.post.count(),
+                        # or Post.objects.filter(user=user).count(),
         'likes_made' : LikePost.objects.all().filter(user=user).count(),
+                        # LikePost.objects.filter(user=user).count()
         'likes_recevied' : LikePost.objects.filter(post__user=user).count(), 
                             #post__user is  a lookup variable for reverse relationship.
     }
     return render(request, page_name, context=data)
+
+@login_required(login_url='sign_in')
+def upload_profile_image(request):
+    user = request.user
+    image = request.FILES['profile_image']    
+    profile = Profile.objects.get(user=user)
+    profile.image = image
+    profile.save()
+    return redirect(f'/profile/{user.username}')
