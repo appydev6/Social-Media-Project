@@ -11,8 +11,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
     <title>Social Media App</title>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=thumb_up" />
+    <script src="https://kit.fontawesome.com/574f31c50b.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -21,11 +20,15 @@
     {% comment %} header {% endcomment %}
     <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: lavender;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Social Media App</a>
+            <a class="navbar-brand" href="/"
+                style="font-weight: bolder; font-size: large; font-style: oblique;">Thought-Post</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+
+                <span class="navbar-toggler-icon">
+
+                </span>
             </button>
             {% if request.user.is_authenticated %}
             <div style="display: flex; flex-direction: row;">
@@ -35,15 +38,6 @@
 
                 {% endif %}
                 <a href="/profile/{{request.user.username}}">Hello, {{request.user.username}}</a>
-
-                <form method="post" action="{% url 'delete_user' %}" style="display:inline; margin-left: 1rem;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                        onclick="return confirm('Delete account forever? This cannot be undone.')">
-                        Delete Account
-                    </button>
-                </form>
-
                 <a style="margin-left: 1rem;" class="btn btn-outline-dark" href="/sign_out">Sign out</a>
             </div>
             {% else %}

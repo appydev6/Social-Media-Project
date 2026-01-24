@@ -8,9 +8,12 @@ def get_data(request, key):
     return request.GET.get(key) or request.POST.get(key)
 
 # Create your views here.
+@login_required(login_url='sign_in')
 def index_view(request):
+    user = request.user
     page_name = "index.html"
     data = {
+        "already_liked_post_id": list(LikePost.objects.filter(user=user).values_list('post_id', flat=True)),
         "posts" : Post.objects.all().order_by('-created_at')
     }
     return render(request, page_name, context=data)
@@ -31,7 +34,19 @@ def submit_post(request):
 def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     LikePost.objects.get_or_create(user=request.user, post=post)
+    user = request.user
+    data = {
+        "already_liked_post_id": list(LikePost.objects.filter(user=user).values_list('post_id', flat=True)),
+        "posts": Post.objects.all().order_by('-created_at'),
+    }
+    return render(request, 'index.html', context=data)
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, user=request.user)
+    post.delete()
     return redirect('index')
+
 
 @login_required(login_url='sign_in')
 def profile_view(request, username):

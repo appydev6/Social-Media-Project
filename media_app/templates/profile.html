@@ -26,7 +26,8 @@
     </form>
     {% endif %}
 
-    <h3>{{profile_user.username}}</h3>
+    <h3>username : {{profile_user.username}}</h3>
+    <h3>user_id : {{profile_user.id}}</h3>
     <br>
     <h6 style="font-style: oblique;"> {{profile_user.email}} </h6>
     <div>
@@ -39,5 +40,12 @@
             {% endfor %}
         </ul>
     </div>
+    <form method="post" action="{% url 'delete_user' %}" style="display:inline; margin-left: 70rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-danger btn-sm"
+            onclick="return confirm('Delete account forever? This cannot be undone.')">
+            Delete Account
+        </button>
+    </form>
 </div>
 {% endblock %}
