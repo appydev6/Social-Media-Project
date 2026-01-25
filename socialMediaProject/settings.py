@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import environ
 import os
+import dj_database_url
+
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +28,19 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ad0mcb^1xo4y1warmov963fli@+0az1ekzob@4_o(kdt#ow#)('
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == 'on'
+
+# MODE
+MODE = os.environ.get('MODE')
+
+# DB_STRING
+DB_STRING = os.environ.get('DB_STRING')
+
+IS_DEV_ENV = MODE == 'dev'
+
 
 ALLOWED_HOSTS = []
 
@@ -80,14 +92,7 @@ WSGI_APPLICATION = 'socialMediaProject.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get('DB_NAME'),
-        "USER": os.environ.get('DB_USER_NAME'),
-        "PASSWORD": os.environ.get('DB_PASSWORD'),
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
+    "default": dj_database_url.parse(DB_STRING)
 }
 
 
