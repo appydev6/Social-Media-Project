@@ -42,7 +42,7 @@ DB_STRING = os.environ.get('DB_STRING')
 IS_DEV_ENV = MODE == 'dev'
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
